@@ -1,0 +1,173 @@
+[gd_scene format=3 uid="uid://byeew0dwd3unl"]
+
+[ext_resource type="Script" uid="uid://b0ql1mhhmterx" path="res://src/Game/game.gd" id="1_sag4g"]
+[ext_resource type="Script" uid="uid://bqe1jfb0gy07j" path="res://src/Game/EventHandlers/input_handler.gd" id="2_le6wr"]
+[ext_resource type="Script" uid="uid://jw2xe5keq0t8" path="res://src/Game/EventHandlers/main_game_input_handler.gd" id="3_3s8ir"]
+[ext_resource type="Script" uid="uid://b6elgow0k5jhg" path="res://src/Game/EventHandlers/game_over_input_handler.gd" id="3_7m6cs"]
+[ext_resource type="Script" uid="uid://cb0us4w3vrqv7" path="res://src/Map/map.gd" id="3_sag4g"]
+[ext_resource type="Script" uid="uid://d4ewrq0mv5xbm" path="res://src/Map/dungeon_generator.gd" id="4_bob6j"]
+[ext_resource type="Script" uid="uid://8g8lqtkkmfo1" path="res://src/Map/field_of_view.gd" id="5_3s8ir"]
+[ext_resource type="Script" uid="uid://f8vfrmmwnl1m" path="res://src/Game/EventHandlers/history_viewer_input_handler.gd" id="5_ysswf"]
+[ext_resource type="Script" uid="uid://bkivcadk4o67w" path="res://src/Game/EventHandlers/base_input_handler.gd" id="6_x8pff"]
+[ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="8_lx5th"]
+[ext_resource type="Script" uid="uid://ckoasawr5jteb" path="res://src/GUI/mouseover_checker.gd" id="9_4te78"]
+[ext_resource type="Script" uid="uid://dr6in330855ok" path="res://src/GUI/hp_display.gd" id="9_mkl7w"]
+[ext_resource type="FontFile" uid="uid://wvj8g4i3vg7h" path="res://assets/Fonts/kenney_kenney-fonts/Fonts/Kenney Pixel.ttf" id="10_drysr"]
+[ext_resource type="Script" uid="uid://cn6amseusrsjj" path="res://src/GUI/message_log.gd" id="11_drysr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0qd4d"]
+atlas = ExtResource("8_lx5th")
+region = Rect2(768, 336, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7vndn"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = SubResource("AtlasTexture_0qd4d")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vndn"]
+bg_color = Color(0.49803922, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p66cd"]
+bg_color = Color(0, 0.49803922, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hqv3i"]
+font = ExtResource("10_drysr")
+font_size = 36
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7vndn"]
+font = ExtResource("10_drysr")
+font_size = 36
+
+[node name="InterfaceRoot" type="Control" unique_id=13297286]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1853164593]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer" unique_id=643502188]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer" unique_id=455953247]
+disable_3d = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(1920, 896)
+render_target_update_mode = 4
+
+[node name="Game" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport" unique_id=715980526]
+script = ExtResource("1_sag4g")
+
+[node name="InputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=2074758298]
+script = ExtResource("2_le6wr")
+
+[node name="MainGameInputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=2116403]
+script = ExtResource("3_3s8ir")
+
+[node name="GameOverInputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1124561278]
+script = ExtResource("3_7m6cs")
+
+[node name="HistoryViewerInputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1584827234]
+script = ExtResource("5_ysswf")
+messages_panel_path = NodePath("../../../../../InfoBar/MessagePanel")
+message_log_path = NodePath("../../../../../InfoBar/MessagePanel/MessageLog")
+
+[node name="DummyInputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1551990853]
+script = ExtResource("6_x8pff")
+
+[node name="Map" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=371194236]
+script = ExtResource("3_sag4g")
+
+[node name="Tiles" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=825669120]
+
+[node name="Entities" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=1358050629]
+
+[node name="DungeonGenerator" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=855195033]
+script = ExtResource("4_bob6j")
+
+[node name="FieldOfView" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=1168579990]
+script = ExtResource("5_3s8ir")
+
+[node name="MouseOverChecker" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=2003516497]
+script = ExtResource("9_4te78")
+
+[node name="Camera2D" type="Camera2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=198383647]
+zoom = Vector2(3, 3)
+
+[node name="InfoBar" type="HBoxContainer" parent="VBoxContainer" unique_id=1121687442]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="StatsPanel" type="PanelContainer" parent="VBoxContainer/InfoBar" unique_id=1047874058]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_7vndn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/InfoBar/StatsPanel" unique_id=334080634]
+layout_mode = 2
+
+[node name="HpDisplay" type="MarginContainer" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=1771122807]
+layout_mode = 2
+script = ExtResource("9_mkl7w")
+
+[node name="HpBar" type="ProgressBar" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" unique_id=2027185897]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_7vndn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_p66cd")
+step = 1.0
+show_percentage = false
+
+[node name="HpLabel" type="Label" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" unique_id=1723608395]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_hqv3i")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MouseOverLabel" type="Label" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=830279341]
+layout_mode = 2
+size_flags_vertical = 10
+label_settings = SubResource("LabelSettings_7vndn")
+
+[node name="MessagePanel" type="PanelContainer" parent="VBoxContainer/InfoBar" unique_id=1706536737]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_7vndn")
+
+[node name="MessageLog" type="ScrollContainer" parent="VBoxContainer/InfoBar/MessagePanel" unique_id=552687127]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+script = ExtResource("11_drysr")
+
+[node name="MessageList" type="VBoxContainer" parent="VBoxContainer/InfoBar/MessagePanel/MessageLog" unique_id=1649794281]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="player_created" from="VBoxContainer/SubViewportContainer/SubViewport/Game" to="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" method="initialize"]
+[connection signal="entities_focussed" from="VBoxContainer/SubViewportContainer/SubViewport/Game/Map/MouseOverChecker" to="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/MouseOverLabel" method="set_text"]

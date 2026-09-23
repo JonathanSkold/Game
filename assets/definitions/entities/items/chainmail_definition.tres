@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EntityDefinition" format=3 uid="uid://dfv4tl4k6jc2j"]
+
+[ext_resource type="Script" uid="uid://dhydvtn20xv2r" path="res://src/Entities/Actors/Components/ComponentDefinitions/equippable_component_definition.gd" id="1_1saax"]
+[ext_resource type="Script" uid="uid://bq6erebf6qrgl" path="res://src/Entities/entity_definition.gd" id="1_d6qd5"]
+[ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="3_k7jd7"]
+
+[sub_resource type="Resource" id="Resource_1saax"]
+script = ExtResource("1_1saax")
+defense_bonus = 3
+metadata/_custom_type_script = "uid://dhydvtn20xv2r"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vn0pp"]
+atlas = ExtResource("3_k7jd7")
+region = Rect2(544, 16, 16, 16)
+
+[resource]
+script = ExtResource("1_d6qd5")
+name = "Chainmail"
+texture = SubResource("AtlasTexture_vn0pp")
+color = Color(0.49803922, 0.49803922, 0.49803922, 1)
+is_blocking_movement = false
+type = 1
+item_definition = SubResource("Resource_1saax")
+metadata/_custom_type_script = "uid://bq6erebf6qrgl"

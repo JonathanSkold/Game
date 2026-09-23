@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://bisivn65qh8sm"]
+
+[ext_resource type="FontFile" uid="uid://wvj8g4i3vg7h" path="res://assets/Fonts/kenney_kenney-fonts/Fonts/Kenney Pixel.ttf" id="1_cttl4"]
+
+[resource]
+font = ExtResource("1_cttl4")
+font_size = 36

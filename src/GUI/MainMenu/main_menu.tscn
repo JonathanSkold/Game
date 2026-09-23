@@ -1,0 +1,146 @@
+[gd_scene format=3 uid="uid://cwrm5877w1ji5"]
+
+[ext_resource type="Script" uid="uid://c88t8n2rj4vnx" path="res://src/GUI/MainMenu/main_menu.gd" id="1_nnfs6"]
+[ext_resource type="FontFile" uid="uid://wvj8g4i3vg7h" path="res://assets/Fonts/kenney_kenney-fonts/Fonts/Kenney Pixel.ttf" id="2_tcuw5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ah3ue"]
+font = ExtResource("2_tcuw5")
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hqv3i"]
+font = ExtResource("2_tcuw5")
+font_size = 32
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sotad"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o76gx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ou2dv"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nfk31"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_uir76"]
+device = -1
+keycode = 78
+unicode = 110
+
+[sub_resource type="Shortcut" id="Shortcut_7v1sj"]
+events = [SubResource("InputEventKey_uir76")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_nnfs6"]
+device = -1
+keycode = 67
+unicode = 99
+
+[sub_resource type="Shortcut" id="Shortcut_0me0v"]
+events = [SubResource("InputEventKey_nnfs6")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_yertb"]
+device = -1
+keycode = 81
+unicode = 113
+
+[sub_resource type="InputEventKey" id="InputEventKey_tcuw5"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_uriei"]
+events = [SubResource("InputEventKey_yertb"), SubResource("InputEventKey_tcuw5")]
+
+[node name="MainMenu" type="Control" unique_id=1768926061]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nnfs6")
+
+[node name="Background" type="TextureRect" parent="." unique_id=838645997]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=752161666]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=115024606]
+layout_mode = 2
+text = "Made by ..."
+label_settings = SubResource("LabelSettings_ah3ue")
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer" unique_id=810419863]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CenterContainer" unique_id=653329407]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/CenterContainer/VBoxContainer" unique_id=1895153680]
+layout_mode = 2
+text = "Game title"
+label_settings = SubResource("LabelSettings_hqv3i")
+horizontal_alignment = 1
+
+[node name="NewButton" type="Button" parent="VBoxContainer/CenterContainer/VBoxContainer" unique_id=1154777933]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_tcuw5")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sotad")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_o76gx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ou2dv")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_nfk31")
+shortcut = SubResource("Shortcut_7v1sj")
+text = "[N] Play new game"
+
+[node name="LoadButton" type="Button" parent="VBoxContainer/CenterContainer/VBoxContainer" unique_id=663553696]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_tcuw5")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sotad")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_o76gx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ou2dv")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_nfk31")
+shortcut = SubResource("Shortcut_0me0v")
+text = "[C] Continue last game"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer/CenterContainer/VBoxContainer" unique_id=1105958080]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_tcuw5")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sotad")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_o76gx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ou2dv")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_nfk31")
+shortcut = SubResource("Shortcut_uriei")
+text = "[Q] Quit game"
+
+[connection signal="pressed" from="VBoxContainer/CenterContainer/VBoxContainer/NewButton" to="." method="_on_new_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer/VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EntityDefinition" format=3 uid="uid://nnn3hm7awej1"]
+
+[ext_resource type="Script" uid="uid://debm2xdqe6bwe" path="res://src/Entities/Actors/Components/ComponentDefinitions/fireball_damage_consumable_component_definition.gd" id="1_62n8f"]
+[ext_resource type="Script" uid="uid://bq6erebf6qrgl" path="res://src/Entities/entity_definition.gd" id="1_s1ujj"]
+[ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="3_eaite"]
+
+[sub_resource type="Resource" id="Resource_nwlnk"]
+script = ExtResource("1_62n8f")
+damage = 12
+radius = 3
+metadata/_custom_type_script = "uid://debm2xdqe6bwe"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwboe"]
+atlas = ExtResource("3_eaite")
+region = Rect2(528, 240, 16, 16)
+
+[resource]
+script = ExtResource("1_s1ujj")
+name = "Fireball Scroll"
+texture = SubResource("AtlasTexture_bwboe")
+color = Color(1, 0, 0, 1)
+is_blocking_movement = false
+type = 1
+item_definition = SubResource("Resource_nwlnk")
+metadata/_custom_type_script = "uid://bq6erebf6qrgl"
