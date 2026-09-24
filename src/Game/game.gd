@@ -11,10 +11,10 @@ const player_definition: EntityDefinition = preload("res://assets/definitions/en
 @onready var camera: Camera2D = $Camera2D
 
 func new_game() -> void:
-	player = Entity.new(null, Vector2i.ZERO, "player")
+	player = Entity.create(null, Vector2i.ZERO, "player")
 	player_created.emit(player)
 	remove_child(camera)
-	player.add_child(camera)
+	player.visual.add_child(camera)
 	map.generate(player)
 	map.update_fov(player.grid_position)
 	MessageLog.send_message.bind(
@@ -24,9 +24,9 @@ func new_game() -> void:
 	camera.make_current.call_deferred()
 
 func load_game() -> bool:
-	player = Entity.new(null, Vector2i.ZERO, "")
+	player = Entity.create(null, Vector2i.ZERO, "")
 	remove_child(camera)
-	player.add_child(camera)
+	player.visual.add_child(camera)
 	if not map.load_game(player):
 		return false
 	player_created.emit(player)

@@ -55,6 +55,6 @@ func next_floor() -> void:
 	for tile in tiles.get_children():
 		tile.queue_free()
 	generate(player, map_data.current_floor + 1)
-	player.get_node("Camera2D").make_current()
+	player.visual.get_node("Camera2D").make_current()
 	field_of_view.reset_fov()
 	update_fov(player.grid_position)

@@ -3,7 +3,8 @@ extends Node
 
 
 func enter() -> void:
-	pass
+	await get_tree().process_frame
+	#pass
 
 
 func exit() -> void:

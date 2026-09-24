@@ -141,7 +141,7 @@ func _place_entities(dungeon: MapData, room: Rect2i, current_floor: int) -> void
 				break
 		
 		if can_place:
-			var new_entity := Entity.new(dungeon, new_entity_position, entity_key)
+			var new_entity := Entity.create(dungeon, new_entity_position, entity_key)
 			dungeon.entities.append(new_entity)
 
 func _get_max_value_for_floor(weighted_chances_by_floor: Array, current_floor: int) -> int:

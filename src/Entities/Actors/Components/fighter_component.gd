@@ -76,8 +76,8 @@ func die(log_message := true) -> void:
 		MessageLog.send_message(death_message, death_message_color)
 	
 	MessageLog.send_message(death_message, death_message_color)
-	entity.texture = death_texture
-	entity.modulate = death_color
+	entity.sprite.texture = death_texture
+	entity.sprite.modulate = death_color
 	entity.ai_component.queue_free()
 	entity.ai_component = null
 	entity.entity_name = "Remains of %s" % entity.entity_name

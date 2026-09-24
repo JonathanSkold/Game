@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://3ix44mei6tby"]
+
+[ext_resource type="Script" uid="uid://bmqlnyx4sf425" path="res://src/Entities/entity.gd" id="1_rp8un"]
+
+[node name="Entity" type="Node2D" unique_id=1720226269]
+script = ExtResource("1_rp8un")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1907873853]
+
+[node name="Sprite" type="Sprite2D" parent="Visual" unique_id=391747805]
+centered = false

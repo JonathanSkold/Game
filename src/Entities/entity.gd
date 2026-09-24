@@ -1,5 +1,10 @@
 class_name Entity
-extends Sprite2D
+extends Node2D
+
+const ENTITY_SCENE := preload("res://src/Entities/entity.tscn")
+
+var visual: Node2D
+var sprite: Sprite2D
 
 enum AIType {NONE, HOSTILE}
 enum EntityType {CORPSE, ITEM, ACTOR}
@@ -72,10 +77,17 @@ func restore(save_data: Dictionary) -> void:
 	if equipment_component and save_data.has("equipment_component"):
 		equipment_component.restore(save_data["equipment_component"])
 
-func _init(map_data: MapData, start_position: Vector2i, key: String = "") -> void:
-	centered = false
+static func create(map_data: MapData, start_position: Vector2i, key: String = "") -> Entity:
+	var entity := ENTITY_SCENE.instantiate() as Entity
+	entity.setup(map_data, start_position, key)
+
+	return entity
+
+func setup(_map_data: MapData, start_position: Vector2i, key: String = "") -> void:
+	visual = $Visual
+	sprite = $Visual/Sprite
 	grid_position = start_position
-	self.map_data = map_data
+	map_data = _map_data
 	if key != "":
 		set_entity_type(key)
 
@@ -86,8 +98,8 @@ func set_entity_type(key: String) -> void:
 	type = _definition.type
 	blocks_movement = _definition.is_blocking_movement
 	entity_name = _definition.name
-	texture = entity_definition.texture
-	modulate = entity_definition.color
+	sprite.texture = entity_definition.texture
+	sprite.modulate = entity_definition.color
 	
 	match entity_definition.ai_type:
 		AIType.HOSTILE:
@@ -139,8 +151,34 @@ func get_entity_name() -> String:
 
 func move(move_offset: Vector2i) -> void:
 	map_data.unregister_blocking_entity(self)
+	var old_position := position
 	grid_position += move_offset
 	map_data.register_blocking_entity(self)
+	visual.position = old_position - position
+	var tween := create_tween()
+	tween.tween_property(
+		visual,
+		"position",
+		Vector2.ZERO,
+		0.14
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	var jump_tween := create_tween()
+
+	jump_tween.tween_property(
+		sprite,
+		"position:y",
+		-6.0,
+		0.07
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	jump_tween.tween_property(
+		sprite,
+		"position:y",
+		0.0,
+		0.07
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+
 
 func distance(other_position: Vector2i) -> int:
 	var relative: Vector2i = other_position - grid_position
