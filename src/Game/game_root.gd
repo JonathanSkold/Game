@@ -15,6 +15,7 @@ func load_game() -> void:
 
 func _ready() -> void:
 	SignalBus.escape_requested.connect(_on_escape_requested)
+	new_game()
 
 func _on_escape_requested() -> void:
 	main_menu_requested.emit()

@@ -22,7 +22,7 @@ const max_monsters_by_floor = [
 ]
 
 const item_chances = {
-	0: {"health_potion": 35, "dagger": 5},
+	0: {"health_potion": 35, "dagger": 5, "fireball_scroll": 100},
 	2: {"confusion_scroll": 10, "leather_armor": 5},
 	4: {"lightning_scroll": 25, "sword": 5},
 	6: {"fireball_scroll": 25, "chainmail": 15},

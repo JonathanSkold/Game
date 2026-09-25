@@ -1,7 +1,9 @@
 class_name InventoryMenu
 extends CanvasLayer
 
-signal item_selected(item)
+signal use_requested(item: Entity)
+signal drop_requested(item: Entity)
+signal inspect_requested(item: Entity)
 
 const inventory_menu_item_scene := preload("res://src/GUI/InventoryMenu/inventory_menu_item.tscn")
 
@@ -11,38 +13,54 @@ const inventory_menu_item_scene := preload("res://src/GUI/InventoryMenu/inventor
 func _ready() -> void:
 	hide()
 
-func button_pressed(item: Entity = null) -> void:
-	item_selected.emit(item)
-	queue_free()
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not event is InputEventKey:
+		return
+	
+	if not event.pressed or event.echo:
+		return
+	
+	var index: int = event.keycode - KEY_A
+	
+	if index < 0 or index >= inventory_list.get_child_count():
+		return
+	
+	var item: Entity = inventory_list.get_child(index).get_meta("item")
+	
+	if event.ctrl_pressed:
+		use_requested.emit(item)
+	elif event.alt_pressed:
+		drop_requested.emit(item)
+	elif event.shift_pressed:
+		inspect_requested.emit(item)
 
 func _register_item(index: int, item: Entity, is_equipped: bool) -> void:
 	var item_button: Button = inventory_menu_item_scene.instantiate()
+	
 	var char: String = String.chr("a".unicode_at(0) + index)
 	item_button.text = "( %s ) %s" % [char, item.get_entity_name()]
+	
 	if is_equipped:
 		item_button.text += " (E)"
-	var shortcut_event := InputEventKey.new()
-	shortcut_event.keycode = KEY_A + index
-	item_button.shortcut = Shortcut.new()
-	item_button.shortcut.events = [shortcut_event]
-	item_button.pressed.connect(button_pressed.bind(item))
+	
+	item_button.set_meta("item", item)
+	
 	inventory_list.add_child(item_button)
 
+#func button_pressed(item: Entity = null) -> void:
+#	item_selected.emit(item)
+#	queue_free()
+
+
 func build(title_text: String, inventory: InventoryComponent) -> void:
+	title_label.text = title_text
 	if inventory.items.is_empty():
-		button_pressed.call_deferred()
-		MessageLog.send_message("No items in inventory.", GameColors.IMPOSSIBLE)
+		show()
 		return
 	var equipment: EquipmentComponent = inventory.entity.equipment_component
-	title_label.text = title_text
 	for i in inventory.items.size():
 		var item: Entity = inventory.items[i]
 		var is_equipped: bool = equipment.is_item_equipped(item)
 		_register_item(i, item, is_equipped)
 	inventory_list.get_child(0).grab_focus()
 	show()
-
-func _physics_process(_delta: float) -> void:
-	if Input.is_action_just_pressed("ui_back"):
-		item_selected.emit(null)
-		queue_free()

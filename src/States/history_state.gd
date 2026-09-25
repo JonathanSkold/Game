@@ -1,12 +1,10 @@
-extends BaseInputHandler
+class_name HistoryState
+extends BaseState
 
 const scroll_step = 16
 
-@export_node_path("PanelContainer") var messages_panel_path
-@export_node_path("MessageLog") var message_log_path
-
-@onready var message_panel: PanelContainer = get_node(messages_panel_path)
-@onready var message_log: MessageLog = get_node(message_log_path)
+@export var message_panel: PanelContainer
+@export var message_log: MessageLog
 
 func enter() -> void:
 	message_panel.self_modulate = Color.RED
@@ -14,7 +12,7 @@ func enter() -> void:
 func exit() -> void:
 	message_panel.self_modulate = Color.WHITE
 
-func get_action(player: Entity) -> Action:
+func get_action() -> Action:
 	var action: Action
 	
 	if Input.is_action_just_pressed("move_up"):
@@ -27,9 +25,7 @@ func get_action(player: Entity) -> Action:
 		message_log.scroll_vertical = message_log.get_v_scroll_bar().max_value
 	
 	if Input.is_action_just_pressed("view_history") or Input.is_action_just_pressed("ui_back"):
-		get_parent().transition_to(InputHandler.InputHandlers.MAIN_GAME)
-	
-	if Input.is_action_just_pressed("quit"):
-		get_tree().quit()
-	
+		state_stack.pop()
+		return null
+		
 	return action

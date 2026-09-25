@@ -5,14 +5,21 @@
 [ext_resource type="Script" uid="uid://bqe1jfb0gy07j" path="res://src/Game/EventHandlers/input_handler.gd" id="2_le6wr"]
 [ext_resource type="Script" uid="uid://jw2xe5keq0t8" path="res://src/Game/EventHandlers/main_game_input_handler.gd" id="3_3s8ir"]
 [ext_resource type="Script" uid="uid://b6elgow0k5jhg" path="res://src/Game/EventHandlers/game_over_input_handler.gd" id="3_7m6cs"]
+[ext_resource type="Script" uid="uid://cqbdry6bvffnv" path="res://src/States/state_stack.gd" id="3_nbwy2"]
 [ext_resource type="Script" uid="uid://cb0us4w3vrqv7" path="res://src/Map/map.gd" id="3_sag4g"]
 [ext_resource type="Script" uid="uid://d4ewrq0mv5xbm" path="res://src/Map/dungeon_generator.gd" id="4_bob6j"]
+[ext_resource type="Script" uid="uid://d2dexmh4cpgqq" path="res://src/States/game_state.gd" id="4_ieffl"]
 [ext_resource type="Script" uid="uid://8g8lqtkkmfo1" path="res://src/Map/field_of_view.gd" id="5_3s8ir"]
+[ext_resource type="Script" uid="uid://difsei6hokms2" path="res://src/States/pause_state.gd" id="5_ieffl"]
 [ext_resource type="Script" uid="uid://f8vfrmmwnl1m" path="res://src/Game/EventHandlers/history_viewer_input_handler.gd" id="5_ysswf"]
+[ext_resource type="Script" uid="uid://ben5u2wa8e14t" path="res://src/States/history_state.gd" id="6_x7vs4"]
 [ext_resource type="Script" uid="uid://bkivcadk4o67w" path="res://src/Game/EventHandlers/base_input_handler.gd" id="6_x8pff"]
+[ext_resource type="Script" uid="uid://0ap8xxf8kcqe" path="res://src/States/inventory_state.gd" id="7_23mlr"]
+[ext_resource type="PackedScene" uid="uid://xt7qb3o6feoj" path="res://src/GUI/InventoryMenu/inventory_menu.tscn" id="8_e2xsa"]
 [ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="8_lx5th"]
 [ext_resource type="Script" uid="uid://ckoasawr5jteb" path="res://src/GUI/mouseover_checker.gd" id="9_4te78"]
 [ext_resource type="Script" uid="uid://dr6in330855ok" path="res://src/GUI/hp_display.gd" id="9_mkl7w"]
+[ext_resource type="Script" uid="uid://cbx048ox8su8g" path="res://src/States/targeting_state.gd" id="9_mtir4"]
 [ext_resource type="FontFile" uid="uid://wvj8g4i3vg7h" path="res://assets/Fonts/kenney_kenney-fonts/Fonts/Kenney Pixel.ttf" id="10_drysr"]
 [ext_resource type="Script" uid="uid://cn6amseusrsjj" path="res://src/GUI/message_log.gd" id="11_drysr"]
 [ext_resource type="PackedScene" uid="uid://d4mr16rkk4aw8" path="res://src/GUI/Reticle/reticle.tscn" id="11_muykf"]
@@ -91,6 +98,28 @@ render_target_update_mode = 4
 [node name="Game" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport" unique_id=715980526]
 unique_name_in_owner = true
 script = ExtResource("1_sag4g")
+
+[node name="StateStack" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=576733273]
+script = ExtResource("3_nbwy2")
+
+[node name="GameState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=1446591301]
+script = ExtResource("4_ieffl")
+
+[node name="PauseState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=35884408]
+script = ExtResource("5_ieffl")
+
+[node name="HistoryState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=782624053 node_paths=PackedStringArray("message_panel", "message_log")]
+script = ExtResource("6_x7vs4")
+message_panel = NodePath("../../../../../InfoBar/MessagePanel")
+message_log = NodePath("../../../../../InfoBar/MessagePanel/MessageLog")
+
+[node name="InventoryState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=1549540629]
+script = ExtResource("7_23mlr")
+inventory_menu_scene = ExtResource("8_e2xsa")
+
+[node name="TargetingState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=1706922682 node_paths=PackedStringArray("reticle")]
+script = ExtResource("9_mtir4")
+reticle = NodePath("../../Map/Reticle")
 
 [node name="InputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=2074758298]
 script = ExtResource("2_le6wr")
