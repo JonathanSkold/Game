@@ -15,6 +15,8 @@ func perform() -> bool:
 			map_data.entities.erase(item)
 			item.get_parent().remove_child(item)
 			inventory.items.append(item)
+			
+			inventory.inventory_changed.emit()
 			MessageLog.send_message(
 				"You picked up the %s!" % item.get_entity_name(),
 				Color.WHITE

@@ -14,8 +14,6 @@
 [ext_resource type="Script" uid="uid://f8vfrmmwnl1m" path="res://src/Game/EventHandlers/history_viewer_input_handler.gd" id="5_ysswf"]
 [ext_resource type="Script" uid="uid://ben5u2wa8e14t" path="res://src/States/history_state.gd" id="6_x7vs4"]
 [ext_resource type="Script" uid="uid://bkivcadk4o67w" path="res://src/Game/EventHandlers/base_input_handler.gd" id="6_x8pff"]
-[ext_resource type="Script" uid="uid://0ap8xxf8kcqe" path="res://src/States/inventory_state.gd" id="7_23mlr"]
-[ext_resource type="PackedScene" uid="uid://xt7qb3o6feoj" path="res://src/GUI/InventoryMenu/inventory_menu.tscn" id="8_e2xsa"]
 [ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="8_lx5th"]
 [ext_resource type="Script" uid="uid://ckoasawr5jteb" path="res://src/GUI/mouseover_checker.gd" id="9_4te78"]
 [ext_resource type="Script" uid="uid://dr6in330855ok" path="res://src/GUI/hp_display.gd" id="9_mkl7w"]
@@ -25,12 +23,14 @@
 [ext_resource type="PackedScene" uid="uid://d4mr16rkk4aw8" path="res://src/GUI/Reticle/reticle.tscn" id="11_muykf"]
 [ext_resource type="Script" uid="uid://dld54ttwubj84" path="res://src/GUI/dungeon_floor_label.gd" id="16_lr6s2"]
 [ext_resource type="Script" uid="uid://dpatr5dyja3s8" path="res://src/GUI/character_info_box.gd" id="16_nwlnk"]
+[ext_resource type="PackedScene" uid="uid://btgkiobrpls3h" path="res://src/GUI/InventoryPanel/inventory_panel.tscn" id="26_6phm1"]
+[ext_resource type="PackedScene" uid="uid://6xtcbgfam75y" path="res://src/Debug/debug_overlay.tscn" id="26_seslh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qd4d"]
 atlas = ExtResource("8_lx5th")
 region = Rect2(768, 336, 16, 16)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7vndn"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fjlul"]
 content_margin_left = 8.0
 content_margin_top = 8.0
 content_margin_right = 8.0
@@ -65,6 +65,17 @@ font_size = 32
 font = ExtResource("10_drysr")
 font_size = 36
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7vndn"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = SubResource("AtlasTexture_0qd4d")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
 [node name="InterfaceRoot" type="Control" unique_id=13297286]
 layout_mode = 3
 anchors_preset = 15
@@ -74,110 +85,111 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_adbi8")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1853164593]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=959690560]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer" unique_id=643502188]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1853164593]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer/VBoxContainer" unique_id=643502188]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 5.0
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer" unique_id=455953247]
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/VBoxContainer/SubViewportContainer" unique_id=455953247]
 disable_3d = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(1920, 896)
+size = Vector2i(1560, 896)
 render_target_update_mode = 4
 
-[node name="Game" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport" unique_id=715980526]
+[node name="Game" type="Node2D" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport" unique_id=715980526]
 unique_name_in_owner = true
 script = ExtResource("1_sag4g")
 
-[node name="StateStack" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=576733273]
+[node name="StateStack" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=576733273]
 script = ExtResource("3_nbwy2")
 
-[node name="GameState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=1446591301]
+[node name="GameState" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=1446591301]
 script = ExtResource("4_ieffl")
 
-[node name="PauseState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=35884408]
+[node name="PauseState" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=35884408]
 script = ExtResource("5_ieffl")
 
-[node name="HistoryState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=782624053 node_paths=PackedStringArray("message_panel", "message_log")]
+[node name="HistoryState" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=782624053 node_paths=PackedStringArray("message_panel", "message_log")]
 script = ExtResource("6_x7vs4")
 message_panel = NodePath("../../../../../InfoBar/MessagePanel")
 message_log = NodePath("../../../../../InfoBar/MessagePanel/MessageLog")
 
-[node name="InventoryState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=1549540629]
-script = ExtResource("7_23mlr")
-inventory_menu_scene = ExtResource("8_e2xsa")
-
-[node name="TargetingState" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=1706922682 node_paths=PackedStringArray("reticle")]
+[node name="TargetingState" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=1706922682 node_paths=PackedStringArray("reticle")]
 script = ExtResource("9_mtir4")
 reticle = NodePath("../../Map/Reticle")
 
-[node name="InputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=2074758298]
+[node name="InputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=2074758298]
 script = ExtResource("2_le6wr")
 
-[node name="MainGameInputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=2116403 node_paths=PackedStringArray("reticle")]
+[node name="MainGameInputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=2116403 node_paths=PackedStringArray("reticle")]
 script = ExtResource("3_3s8ir")
 reticle = NodePath("../../Map/Reticle")
 
-[node name="GameOverInputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1124561278]
+[node name="GameOverInputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1124561278]
 script = ExtResource("3_7m6cs")
 
-[node name="HistoryViewerInputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1584827234]
+[node name="HistoryViewerInputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1584827234]
 script = ExtResource("5_ysswf")
 messages_panel_path = NodePath("../../../../../InfoBar/MessagePanel")
 message_log_path = NodePath("../../../../../InfoBar/MessagePanel/MessageLog")
 
-[node name="DummyInputHandler" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1551990853]
+[node name="DummyInputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1551990853]
 script = ExtResource("6_x8pff")
 
-[node name="Map" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=371194236]
+[node name="Map" type="Node2D" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=371194236]
 script = ExtResource("3_sag4g")
 
-[node name="Tiles" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=825669120]
+[node name="Tiles" type="Node2D" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=825669120]
 
-[node name="Entities" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=1358050629]
+[node name="Entities" type="Node2D" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=1358050629]
 
-[node name="DungeonGenerator" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=855195033]
+[node name="DungeonGenerator" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=855195033]
 script = ExtResource("4_bob6j")
 
-[node name="FieldOfView" type="Node" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=1168579990]
+[node name="FieldOfView" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=1168579990]
 script = ExtResource("5_3s8ir")
 
-[node name="MouseOverChecker" type="Node2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=2003516497]
+[node name="MouseOverChecker" type="Node2D" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=2003516497]
 script = ExtResource("9_4te78")
 
-[node name="Reticle" parent="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=112777833 instance=ExtResource("11_muykf")]
+[node name="Reticle" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/Map" unique_id=112777833 instance=ExtResource("11_muykf")]
 
-[node name="Camera2D" type="Camera2D" parent="VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=198383647]
+[node name="Camera2D" type="Camera2D" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=198383647]
 zoom = Vector2(3, 3)
 
-[node name="InfoBar" type="HBoxContainer" parent="VBoxContainer" unique_id=1121687442]
+[node name="InfoBar" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1121687442]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="StatsPanel" type="PanelContainer" parent="VBoxContainer/InfoBar" unique_id=1047874058]
+[node name="StatsPanel" type="PanelContainer" parent="HBoxContainer/VBoxContainer/InfoBar" unique_id=1047874058]
+custom_minimum_size = Vector2(480, 0)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxTexture_7vndn")
+theme_override_styles/panel = SubResource("StyleBoxTexture_fjlul")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/InfoBar/StatsPanel" unique_id=334080634]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel" unique_id=334080634]
 layout_mode = 2
 
-[node name="HpDisplay" type="MarginContainer" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=1771122807]
+[node name="HpDisplay" type="MarginContainer" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=1771122807]
 layout_mode = 2
 script = ExtResource("9_mkl7w")
 
-[node name="HpBar" type="ProgressBar" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" unique_id=2027185897]
+[node name="HpBar" type="ProgressBar" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" unique_id=2027185897]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
@@ -186,59 +198,67 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_p66cd")
 step = 1.0
 show_percentage = false
 
-[node name="HpLabel" type="Label" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" unique_id=1723608395]
+[node name="HpLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" unique_id=1723608395]
 unique_name_in_owner = true
 layout_mode = 2
 label_settings = SubResource("LabelSettings_hqv3i")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CharacterInfoBox" type="HBoxContainer" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=1031802178]
+[node name="CharacterInfoBox" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=1031802178]
 layout_mode = 2
 script = ExtResource("16_nwlnk")
 
-[node name="AttackLabel" type="Label" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/CharacterInfoBox" unique_id=1838445006]
+[node name="AttackLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/CharacterInfoBox" unique_id=1838445006]
 layout_mode = 2
 size_flags_horizontal = 3
 label_settings = SubResource("LabelSettings_sotad")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DefenseLabel" type="Label" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/CharacterInfoBox" unique_id=1435230392]
+[node name="DefenseLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/CharacterInfoBox" unique_id=1435230392]
 layout_mode = 2
 size_flags_horizontal = 3
 label_settings = SubResource("LabelSettings_sotad")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DungeonFloorLabel" type="Label" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=1727790709]
+[node name="DungeonFloorLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=1727790709]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_p66cd")
 script = ExtResource("16_lr6s2")
 
-[node name="MouseOverLabel" type="Label" parent="VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=830279341]
+[node name="MouseOverLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=830279341]
 layout_mode = 2
 size_flags_vertical = 10
 label_settings = SubResource("LabelSettings_7vndn")
 
-[node name="MessagePanel" type="PanelContainer" parent="VBoxContainer/InfoBar" unique_id=1706536737]
+[node name="MessagePanel" type="PanelContainer" parent="HBoxContainer/VBoxContainer/InfoBar" unique_id=1706536737]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_7vndn")
 
-[node name="MessageLog" type="ScrollContainer" parent="VBoxContainer/InfoBar/MessagePanel" unique_id=552687127]
+[node name="MessageLog" type="ScrollContainer" parent="HBoxContainer/VBoxContainer/InfoBar/MessagePanel" unique_id=552687127]
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 script = ExtResource("11_drysr")
 
-[node name="MessageList" type="VBoxContainer" parent="VBoxContainer/InfoBar/MessagePanel/MessageLog" unique_id=1649794281]
+[node name="MessageList" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/InfoBar/MessagePanel/MessageLog" unique_id=1649794281]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[connection signal="player_created" from="VBoxContainer/SubViewportContainer/SubViewport/Game" to="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" method="initialize"]
-[connection signal="player_created" from="VBoxContainer/SubViewportContainer/SubViewport/Game" to="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/CharacterInfoBox" method="setup"]
-[connection signal="dungeon_floor_changed" from="VBoxContainer/SubViewportContainer/SubViewport/Game/Map" to="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/DungeonFloorLabel" method="set_dungeon_floor"]
-[connection signal="entities_focussed" from="VBoxContainer/SubViewportContainer/SubViewport/Game/Map/MouseOverChecker" to="VBoxContainer/InfoBar/StatsPanel/VBoxContainer/MouseOverLabel" method="set_text"]
+[node name="InventoryPanel" parent="HBoxContainer" unique_id=1028306181 instance=ExtResource("26_6phm1")]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+
+[node name="DebugOverlay" parent="." unique_id=2050669084 node_paths=PackedStringArray("state_stack") instance=ExtResource("26_seslh")]
+state_stack = NodePath("../HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack")
+
+[connection signal="player_created" from="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" to="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" method="initialize"]
+[connection signal="player_created" from="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" to="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/CharacterInfoBox" method="setup"]
+[connection signal="player_created" from="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" to="HBoxContainer/InventoryPanel" method="setup"]
+[connection signal="dungeon_floor_changed" from="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/Map" to="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/DungeonFloorLabel" method="set_dungeon_floor"]
+[connection signal="entities_focussed" from="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/Map/MouseOverChecker" to="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/MouseOverLabel" method="set_text"]

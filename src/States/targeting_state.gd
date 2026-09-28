@@ -21,24 +21,24 @@ func enter() -> void:
 func exit() -> void:
 	reticle.deactivate()
 
-func get_action() -> Action:
-	var offset := Vector2i.ZERO
-	
+
+func handle_input(event: InputEvent) -> Action:
+	if pressed(event, "ui_accept"):
+		_finish(reticle.grid_position)
+		return null
+
+	if pressed(event, "ui_back"):
+		_finish(Vector2i(-1, -1))
+		return null
+
 	for direction in Grid.DIRECTIONS:
-		if Input.is_action_just_pressed(direction):
-			offset += Grid.DIRECTIONS[direction]
-	
-	if offset != Vector2i.ZERO:
-		reticle.move(offset)
-	
-	if Input.is_action_just_pressed("ui_accept"):
-		targeting_finished.emit(reticle.grid_position)
-		state_stack.pop()
-		return null
-	
-	if Input.is_action_just_pressed("ui_back"):
-		targeting_finished.emit(Vector2i(-1, -1))
-		state_stack.pop()
-		return null
-	
+		if pressed(event, direction):
+			reticle.move(Grid.DIRECTIONS[direction])
+			return null
+
 	return null
+
+
+func _finish(position: Vector2i) -> void:
+	state_stack.pop()
+	targeting_finished.emit(position)

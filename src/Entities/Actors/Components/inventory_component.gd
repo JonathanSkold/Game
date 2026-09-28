@@ -4,6 +4,8 @@ extends Component
 var items: Array[Entity]
 var capacity: int
 
+signal inventory_changed
+
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {
 		"capacity": capacity,
@@ -19,6 +21,8 @@ func restore(save_data: Dictionary) -> void:
 		var item: Entity = Entity.create(null, Vector2i(-1, -1), "")
 		item.restore(item_data)
 		items.append(item)
+	
+	inventory_changed.emit()
 
 func _init(capacity: int) -> void:
 	items = []
@@ -31,4 +35,6 @@ func drop(item: Entity) -> void:
 	map_data.entity_placed.emit(item)
 	item.map_data = map_data
 	item.grid_position = entity.grid_position
+	
+	inventory_changed.emit()
 	MessageLog.send_message("You dropped the %s." % item.get_entity_name(), Color.WHITE)

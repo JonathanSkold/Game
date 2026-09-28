@@ -1,11 +1,29 @@
 class_name DropItemAction
-extends ItemAction
+extends Action
 
+var _item: Entity
+
+func _init(entity: Entity, item: Entity) -> void:
+	super._init(entity)
+	_item = item
 
 func perform() -> bool:
-	if item == null:
+	if not is_instance_valid(_item):
 		return false
-	if entity.equipment_component and entity.equipment_component.is_item_equipped(item):
-		entity.equipment_component.toggle_equip(item)
-	entity.inventory_component.drop(item)
+
+	var inventory: InventoryComponent = entity.inventory_component
+
+	if inventory == null:
+		return false
+
+	if not inventory.items.has(_item):
+		return false
+
+	var equipment: EquipmentComponent = entity.equipment_component
+
+	if equipment != null and equipment.is_item_equipped(_item):
+		equipment.toggle_equip(_item)
+		return true
+
+	inventory.drop(_item)
 	return true

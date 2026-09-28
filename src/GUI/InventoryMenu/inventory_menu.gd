@@ -13,6 +13,24 @@ const inventory_menu_item_scene := preload("res://src/GUI/InventoryMenu/inventor
 func _ready() -> void:
 	hide()
 
+func set_interaction_enabled(enabled: bool) -> void:
+	set_process_unhandled_key_input(enabled)
+
+	if enabled:
+		show()
+
+		if inventory_list.get_child_count() > 0:
+			var first_item := inventory_list.get_child(0) as Control
+			first_item.grab_focus()
+	else:
+		for child in inventory_list.get_children():
+			var item_control := child as Control
+
+			if item_control != null and item_control.has_focus():
+				item_control.release_focus()
+
+		hide()
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey:
 		return
@@ -28,10 +46,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var item: Entity = inventory_list.get_child(index).get_meta("item")
 	
 	if event.ctrl_pressed:
+		get_viewport().set_input_as_handled()
 		use_requested.emit(item)
 	elif event.alt_pressed:
+		get_viewport().set_input_as_handled()
 		drop_requested.emit(item)
 	elif event.shift_pressed:
+		get_viewport().set_input_as_handled()
 		inspect_requested.emit(item)
 
 func _register_item(index: int, item: Entity, is_equipped: bool) -> void:

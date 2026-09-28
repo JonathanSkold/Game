@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://6xtcbgfam75y"]
+
+[ext_resource type="Script" uid="uid://dme1petaj1i7j" path="res://src/Debug/debug_overlay.gd" id="1_em3kb"]
+
+[node name="DebugOverlay" type="CanvasLayer" unique_id=2050669084]
+layer = 100
+script = ExtResource("1_em3kb")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=715833130]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 56.0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1640249614]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer" unique_id=85989315]
+layout_mode = 2

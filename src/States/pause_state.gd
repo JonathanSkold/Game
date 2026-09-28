@@ -1,8 +1,9 @@
 class_name PauseState
 extends BaseState
 
-func get_action() -> Action:
-	if Input.is_action_just_pressed("ui_cancel"):
+
+func handle_input(event: InputEvent) -> Action:
+	if pressed(event, "ui_back"):
 		state_stack.pop()
-	
+
 	return null

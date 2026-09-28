@@ -21,5 +21,8 @@ func resume() -> void:
 	pass
 
 
-func get_action() -> Action:
+func handle_input(_event: InputEvent) -> Action:
 	return null
+
+func pressed(event: InputEvent, action: String) -> bool:
+	return event.is_action_pressed(action, false, true)

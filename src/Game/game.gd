@@ -12,6 +12,7 @@ const player_definition: EntityDefinition = preload("res://assets/definitions/en
 
 @onready var state_stack: StateStack = $StateStack
 
+
 func new_game() -> void:
 	player = Entity.create(null, Vector2i.ZERO, "player")
 	player_created.emit(player)
@@ -44,22 +45,32 @@ func load_game() -> bool:
 
 func get_map_data() -> MapData:
 	return map.map_data
-	
-func _physics_process(_delta: float) -> void:
-	var action: Action = await state_stack.get_action()
-	
-	if action:
-		if action.perform():
-			_handle_enemy_turns()
-			map.update_fov(player.grid_position)
-			
-	#var action: Action = await input_handler.get_action(player)
-	#if action:
-	#	var previous_player_position: Vector2i = player.grid_position
-	#	if action.perform():
-	#		_handle_enemy_turns()
-	#		map.update_fov(player.grid_position)
-		
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not event is InputEventKey:
+		return
+
+	if not event.pressed or event.echo:
+		return
+
+	if state_stack.current() == null:
+		return
+
+	get_viewport().set_input_as_handled()
+
+	var action: Action = state_stack.handle_input(event)
+	execute_action(action)
+
+
+func execute_action(action: Action) -> void:
+	if action == null:
+		return
+
+	if action.perform():
+		_handle_enemy_turns()
+		map.update_fov(player.grid_position)
+
 func _handle_enemy_turns() -> void:
 	for entity in get_map_data().get_actors():
 		if entity.is_alive() and entity != player:

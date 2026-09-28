@@ -13,6 +13,8 @@ func consume(consumer: Entity) -> void:
 	var inventory: InventoryComponent = consumer.inventory_component
 	inventory.items.erase(entity)
 	entity.queue_free()
+	
+	inventory.inventory_changed.emit()
 
 func get_targeting_radius() -> int:
 	return -1

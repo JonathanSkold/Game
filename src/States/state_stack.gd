@@ -5,7 +5,6 @@ var player: Entity
 var states: Array[BaseState] = []
 
 @onready var game_state: GameState = $GameState
-@onready var inventory_state: InventoryState = $InventoryState
 @onready var targeting_state: TargetingState = $TargetingState
 @onready var history_state: HistoryState = $HistoryState
 
@@ -27,7 +26,7 @@ func push(state: BaseState) -> void:
 	state.state_stack = self
 	state.player = player
 	state.enter()
-
+	
 
 func pop() -> void:
 	if states.size() <= 1:
@@ -37,7 +36,7 @@ func pop() -> void:
 	old_state.exit()
 
 	states.back().resume()
-
+	
 
 func replace(state: BaseState) -> void:
 	if not states.is_empty():
@@ -47,7 +46,7 @@ func replace(state: BaseState) -> void:
 	states.push_back(state)
 	state.state_stack = self
 	state.enter()
-
+	
 
 func current() -> BaseState:
 	if states.is_empty():
@@ -55,8 +54,11 @@ func current() -> BaseState:
 
 	return states.back()
 
-func get_action() -> Action:
-	if states.is_empty():
+
+func handle_input(event: InputEvent) -> Action:
+	var state: BaseState = current()
+
+	if state == null:
 		return null
-	
-	return await states.back().get_action()
+
+	return state.handle_input(event)
