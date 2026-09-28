@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btgkiobrpls3h"]
 
 [ext_resource type="Script" uid="uid://cd8svjnp2gqxy" path="res://src/GUI/InventoryPanel/inventory_panel.gd" id="1_40ls3"]
-[ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="1_yg2rl"]
+[ext_resource type="Texture2D" uid="uid://yt60y7n1w20d" path="res://assets/tilesheets/monochrome-transparent_packed.png" id="1_yg2rl"]
 [ext_resource type="LabelSettings" uid="uid://dyln7q3bf8col" path="res://assets/resources/default_label_settings.tres" id="2_40ls3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qd4d"]

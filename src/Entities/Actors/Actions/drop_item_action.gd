@@ -24,5 +24,4 @@ func perform() -> bool:
 	if attachment != null and attachment.is_item_attached(_item):
 		return false
 
-	inventory.drop(_item)
-	return true
+	return inventory.drop(_item)

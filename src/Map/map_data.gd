@@ -152,3 +152,45 @@ func get_actor_at_location(location: Vector2i) -> Entity:
 		if actor.grid_position == location:
 			return actor
 	return null
+
+func find_drop_position(start: Vector2i) -> Vector2i:
+	if not _is_drop_floor(start):
+		return Vector2i(-1, -1)
+
+	var occupied: Dictionary = {}
+
+	for item in get_items():
+		occupied[item.grid_position] = true
+
+	var visited: Dictionary = {}
+	visited[start] = true
+
+	var queue: Array[Vector2i] = [start]
+	var next_index: int = 0
+
+	while next_index < queue.size():
+		var position: Vector2i = queue[next_index]
+		next_index += 1
+
+		if not occupied.has(position):
+			return position
+
+		for direction in Grid.DIRECTIONS.values():
+			var offset: Vector2i = direction
+			var neighbor: Vector2i = position + offset
+
+			if visited.has(neighbor):
+				continue
+
+			if not _is_drop_floor(neighbor):
+				continue
+
+			visited[neighbor] = true
+			queue.append(neighbor)
+
+	return Vector2i(-1, -1)
+
+
+func _is_drop_floor(position: Vector2i) -> bool:
+	var tile: Tile = get_tile(position)
+	return tile != null and tile.is_walkable()

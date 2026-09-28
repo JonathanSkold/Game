@@ -5,6 +5,7 @@ extends Resource
 @export var texture: AtlasTexture
 @export_color_no_alpha var color_lit: Color = Color.WHITE
 @export_color_no_alpha var color_dark: Color = Color.WHITE
+@export var material: ShaderMaterial
 
 @export_category("Mechanics")
 @export var is_walkable: bool = true

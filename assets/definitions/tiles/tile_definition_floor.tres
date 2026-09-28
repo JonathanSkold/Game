@@ -1,7 +1,8 @@
 [gd_resource type="Resource" script_class="TileDefinition" format=3 uid="uid://b0ugbn25y2361"]
 
+[ext_resource type="Material" uid="uid://dof8kq1nwju6o" path="res://assets/resources/grass_material.tres" id="1_lls8w"]
 [ext_resource type="Script" uid="uid://bhy7u8tb7pwin" path="res://src/Map/tile_definition.gd" id="1_u76qn"]
-[ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="2_5vnle"]
+[ext_resource type="Texture2D" uid="uid://yt60y7n1w20d" path="res://assets/tilesheets/monochrome-transparent_packed.png" id="2_5vnle"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5vnle"]
 atlas = ExtResource("2_5vnle")
@@ -10,6 +11,6 @@ region = Rect2(128, 80, 16, 16)
 [resource]
 script = ExtResource("1_u76qn")
 texture = SubResource("AtlasTexture_5vnle")
-color_lit = Color(0.19607843, 0.19607843, 0.19607843, 1)
-color_dark = Color(0.09803922, 0.09803922, 0.09803922, 1)
+color_dark = Color(0.47397548, 0.47397578, 0.47397572, 1)
+material = ExtResource("1_lls8w")
 metadata/_custom_type_script = "uid://bhy7u8tb7pwin"

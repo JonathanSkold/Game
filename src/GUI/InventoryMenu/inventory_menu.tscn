@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://xt7qb3o6feoj"]
 
 [ext_resource type="Script" uid="uid://bbijutjps23oa" path="res://src/GUI/InventoryMenu/inventory_menu.gd" id="1_sdycp"]
-[ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="2_56yp6"]
+[ext_resource type="Texture2D" uid="uid://yt60y7n1w20d" path="res://assets/tilesheets/monochrome-transparent_packed.png" id="2_56yp6"]
 [ext_resource type="FontFile" uid="uid://wvj8g4i3vg7h" path="res://assets/Fonts/kenney_kenney-fonts/Fonts/Kenney Pixel.ttf" id="3_bba0o"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qd4d"]

@@ -30,13 +30,39 @@ func _init(capacity: int) -> void:
 func is_full() -> bool:
 	return items.size() >= capacity
 
-func drop(item: Entity) -> void:
-	items.erase(item)
+func drop(item: Entity) -> bool:
+	if not is_instance_valid(item) or not items.has(item):
+		return false
+
 	var map_data: MapData = get_map_data()
-	map_data.entities.append(item)
-	map_data.entity_placed.emit(item)
+
+	if map_data == null:
+		return false
+
+	var destination: Vector2i = map_data.find_drop_position(
+		entity.grid_position
+	)
+
+	if destination == Vector2i(-1, -1):
+		MessageLog.send_message(
+			"There is no room to drop that item.",
+			GameColors.IMPOSSIBLE
+		)
+		return false
+
+	# A destination exists. Complete the logical transfer first.
+	items.erase(item)
 	item.map_data = map_data
-	item.grid_position = entity.grid_position
-	
+	item.grid_position = destination
+	map_data.entities.append(item)
+
+	# Then restore its world presentation.
+	map_data.entity_placed.emit(item)
+
 	inventory_changed.emit()
-	MessageLog.send_message("You dropped the %s." % item.get_entity_name(), Color.WHITE)
+
+	MessageLog.send_message(
+		"You dropped the %s." % item.get_entity_name(),
+		Color.WHITE
+	)
+	return true

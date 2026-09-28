@@ -46,6 +46,8 @@ func set_tile_type(key: String) -> void:
 	_definition = tile_types[key]
 	texture = _definition.texture
 	modulate = _definition.color_dark
+	
+	material = _definition.material
 
 
 func is_walkable() -> bool:

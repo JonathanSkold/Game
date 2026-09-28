@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dof8kq1nwju6o"]
+
+[ext_resource type="Shader" uid="uid://d1jkskk2or5js" path="res://assets/shaders/grass.gdshader" id="1_hmei7"]
+
+[resource]
+shader = ExtResource("1_hmei7")
+shader_parameter/tile_size = 16.0
+shader_parameter/grass_dark = Color(0.26, 0.42, 0.18, 1)
+shader_parameter/grass_light = Color(0.36, 0.54, 0.24, 1)
+shader_parameter/region_scale = 0.3
+shader_parameter/tile_variation = 0.15
+shader_parameter/border_amount = 2.0
+shader_parameter/border_size = 6.0
+shader_parameter/edge_blade_density = 0.9
+shader_parameter/interior_blade_density = 0.12
+shader_parameter/blade_contrast = 0.03

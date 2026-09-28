@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TileDefinition" format=3 uid="uid://de8nrhx21iujo"]
 
 [ext_resource type="Script" uid="uid://bhy7u8tb7pwin" path="res://src/Map/tile_definition.gd" id="1_ha65y"]
-[ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="2_3def6"]
+[ext_resource type="Texture2D" uid="uid://yt60y7n1w20d" path="res://assets/tilesheets/monochrome-transparent_packed.png" id="2_3def6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3def6"]
 atlas = ExtResource("2_3def6")
