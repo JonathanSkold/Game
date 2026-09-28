@@ -5,6 +5,7 @@ var player: Entity
 var states: Array[BaseState] = []
 
 @onready var game_state: GameState = $GameState
+@onready var swap_state: SwapState = $SwapState
 @onready var targeting_state: TargetingState = $TargetingState
 @onready var history_state: HistoryState = $HistoryState
 

@@ -19,6 +19,6 @@ func get_target_actor() -> Entity:
 func perform() -> bool:
 	if item == null:
 		return false
-	if item.equippable_component:
-		return EquipAction.new(entity, item).perform()
+	if item.attachable_component:
+		return AttachAction.new(entity, item).perform()
 	return item.consumable_component.activate(self)

@@ -16,4 +16,4 @@ extends Resource
 @export var ai_type: Entity.AIType
 @export var item_definition: ItemComponentDefinition
 @export var inventory_capacity: int = 0
-@export var has_equipment: bool = false
+@export var has_attachments: bool = false

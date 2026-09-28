@@ -1,4 +1,4 @@
-class_name EquipAction
+class_name AttachAction
 extends Action
 
 var _item: Entity
@@ -13,16 +13,15 @@ func perform() -> bool:
 		return false
 
 	var inventory: InventoryComponent = entity.inventory_component
-	var equipment: EquipmentComponent = entity.equipment_component
+	var attachment: AttachmentComponent = entity.attachment_component
 
-	if inventory == null or equipment == null:
+	if inventory == null or attachment == null:
 		return false
 
 	if not inventory.items.has(_item):
 		return false
 
-	if _item.equippable_component == null:
+	if _item.attachable_component == null:
 		return false
 
-	equipment.toggle_equip(_item)
-	return true
+	return attachment.attach(_item)

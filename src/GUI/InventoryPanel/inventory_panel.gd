@@ -3,21 +3,21 @@ extends PanelContainer
 
 @export var item_label_settings: LabelSettings
 
-@onready var equipped_list: VBoxContainer = %EquippedList
+@onready var attached_list: VBoxContainer = %AttachedList
 @onready var inventory_list: VBoxContainer = %InventoryList
 
 var _inventory: InventoryComponent
-var _equipment: EquipmentComponent
+var _attachment: AttachmentComponent
 
 
 func setup(player: Entity) -> void:
 	_disconnect_components()
 
 	_inventory = player.inventory_component
-	_equipment = player.equipment_component
+	_attachment = player.attachment_component
 
 	_inventory.inventory_changed.connect(refresh)
-	_equipment.equipment_changed.connect(refresh)
+	_attachment.attachments_changed.connect(refresh)
 
 	refresh()
 
@@ -27,38 +27,42 @@ func _disconnect_components() -> void:
 		if _inventory.inventory_changed.is_connected(refresh):
 			_inventory.inventory_changed.disconnect(refresh)
 
-	if is_instance_valid(_equipment):
-		if _equipment.equipment_changed.is_connected(refresh):
-			_equipment.equipment_changed.disconnect(refresh)
+	if is_instance_valid(_attachment):
+		if _attachment.attachments_changed.is_connected(refresh):
+			_attachment.attachments_changed.disconnect(refresh)
 
 
 func refresh() -> void:
-	_clear_list(equipped_list)
+	_clear_list(attached_list)
 	_clear_list(inventory_list)
 
 	if not is_instance_valid(_inventory):
 		return
-	if not is_instance_valid(_equipment):
+	if not is_instance_valid(_attachment):
 		return
+
+	var attached_items: Array[Entity] = _attachment.get_attached_items()
+
+	for index in range(attached_items.size()):
+		var item: Entity = attached_items[index]
+		var shortcut: String = String.chr("a".unicode_at(0) + index)
+
+		_add_row(
+			attached_list,
+			"(%s) %s" % [shortcut, item.get_entity_name()]
+		)
 
 	for index in range(_inventory.items.size()):
 		var item: Entity = _inventory.items[index]
-		var shortcut: String = String.chr("a".unicode_at(0) + index)
-		var text: String = "(%s) %s" % [
-			shortcut,
-			item.get_entity_name()
-		]
+		var shortcut: String = "-"
 
-		if _equipment.is_item_equipped(item):
-			_add_row(equipped_list, text)
-		else:
-			_add_row(inventory_list, text)
+		if index < 10:
+			shortcut = str((index + 1) % 10)
 
-	if equipped_list.get_child_count() == 0:
-		_add_row(equipped_list, "Nothing equipped")
-
-	if inventory_list.get_child_count() == 0:
-		_add_row(inventory_list, "No unequipped items")
+		_add_row(
+			inventory_list,
+			"(%s) %s" % [shortcut, item.get_entity_name()]
+		)
 
 
 func _clear_list(list: VBoxContainer) -> void:

@@ -19,11 +19,10 @@ func perform() -> bool:
 	if not inventory.items.has(_item):
 		return false
 
-	var equipment: EquipmentComponent = entity.equipment_component
+	var attachment: AttachmentComponent = entity.attachment_component
 
-	if equipment != null and equipment.is_item_equipped(_item):
-		equipment.toggle_equip(_item)
-		return true
+	if attachment != null and attachment.is_item_attached(_item):
+		return false
 
 	inventory.drop(_item)
 	return true

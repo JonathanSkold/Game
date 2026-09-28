@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="EntityDefinition" format=3 uid="uid://c7i6prjwu52rw"]
 
-[ext_resource type="Script" uid="uid://dhydvtn20xv2r" path="res://src/Entities/Actors/Components/ComponentDefinitions/equippable_component_definition.gd" id="1_7reci"]
+[ext_resource type="Script" uid="uid://dhydvtn20xv2r" path="res://src/Entities/Actors/Components/ComponentDefinitions/attachable_component_definition.gd" id="1_7reci"]
 [ext_resource type="Script" uid="uid://bq6erebf6qrgl" path="res://src/Entities/entity_definition.gd" id="1_qagt3"]
 [ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="3_l50jg"]
 
 [sub_resource type="Resource" id="Resource_7reci"]
 script = ExtResource("1_7reci")
+attachment_type = 1
 defense_bonus = 1
 metadata/_custom_type_script = "uid://dhydvtn20xv2r"
 

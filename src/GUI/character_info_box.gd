@@ -8,7 +8,7 @@ var _player: Entity
 
 func setup(player: Entity) -> void:
 	_player = player
-	_player.equipment_component.equipment_changed.connect(update_labels)
+	_player.attachment_component.attachments_changed.connect(update_labels)
 	update_labels()
 
 

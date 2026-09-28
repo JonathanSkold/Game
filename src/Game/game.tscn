@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://ben5u2wa8e14t" path="res://src/States/history_state.gd" id="6_x7vs4"]
 [ext_resource type="Script" uid="uid://bkivcadk4o67w" path="res://src/Game/EventHandlers/base_input_handler.gd" id="6_x8pff"]
 [ext_resource type="Texture2D" uid="uid://bxugfahvgaikc" path="res://assets/monochrome_packed.png" id="8_lx5th"]
+[ext_resource type="Script" uid="uid://c1b34riaowm1x" path="res://src/States/swap_state.gd" id="8_seslh"]
 [ext_resource type="Script" uid="uid://ckoasawr5jteb" path="res://src/GUI/mouseover_checker.gd" id="9_4te78"]
 [ext_resource type="Script" uid="uid://dr6in330855ok" path="res://src/GUI/hp_display.gd" id="9_mkl7w"]
 [ext_resource type="Script" uid="uid://cbx048ox8su8g" path="res://src/States/targeting_state.gd" id="9_mtir4"]
@@ -132,6 +133,9 @@ message_log = NodePath("../../../../../InfoBar/MessagePanel/MessageLog")
 [node name="TargetingState" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=1706922682 node_paths=PackedStringArray("reticle")]
 script = ExtResource("9_mtir4")
 reticle = NodePath("../../Map/Reticle")
+
+[node name="SwapState" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=266971548]
+script = ExtResource("8_seslh")
 
 [node name="InputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=2074758298]
 script = ExtResource("2_le6wr")

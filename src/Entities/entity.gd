@@ -41,9 +41,9 @@ var grid_position: Vector2i:
 var fighter_component: FighterComponent
 var ai_component: BaseAIComponent
 var consumable_component: ConsumableComponent
-var equippable_component: EquippableComponent
+var attachable_component: AttachableComponent
 var inventory_component: InventoryComponent
-var equipment_component: EquipmentComponent
+var attachment_component: AttachmentComponent
 
 
 func get_save_data() -> Dictionary:
@@ -58,8 +58,8 @@ func get_save_data() -> Dictionary:
 		save_data["ai_component"] = ai_component.get_save_data()
 	if inventory_component:
 		save_data["inventory_component"] = inventory_component.get_save_data()
-	if equipment_component:
-		save_data["equipment_component"] = equipment_component.get_save_data()
+	if attachment_component:
+		save_data["attachment_component"] = attachment_component.get_save_data()
 	return save_data
 
 func restore(save_data: Dictionary) -> void:
@@ -74,8 +74,11 @@ func restore(save_data: Dictionary) -> void:
 			add_child(confused_enemy_ai)
 	if inventory_component and save_data.has("inventory_component"):
 		inventory_component.restore(save_data["inventory_component"])
-	if equipment_component and save_data.has("equipment_component"):
-		equipment_component.restore(save_data["equipment_component"])
+	if attachment_component and save_data.has("attachment_component"):
+		attachment_component.restore(save_data["attachment_component"])
+	elif attachment_component and save_data.has("equipment_component"):
+		# Compatibility with saves written before the attachment rename.
+		attachment_component.restore(save_data["equipment_component"])
 
 static func create(map_data: MapData, start_position: Vector2i, key: String = "") -> Entity:
 	var entity := ENTITY_SCENE.instantiate() as Entity
@@ -115,16 +118,16 @@ func set_entity_type(key: String) -> void:
 		if item_definition is ConsumableComponentDefinition:
 			_handle_consumable(item_definition)
 		else:
-			equippable_component = EquippableComponent.new(item_definition)
+			attachable_component = AttachableComponent.new(item_definition)
 	
 	if entity_definition.inventory_capacity > 0:
 		inventory_component = InventoryComponent.new(entity_definition.inventory_capacity)
 		add_child(inventory_component)
 	
-	if entity_definition.has_equipment:
-		equipment_component = EquipmentComponent.new()
-		add_child(equipment_component)
-		equipment_component.entity = self
+	if entity_definition.has_attachments:
+		attachment_component = AttachmentComponent.new()
+		add_child(attachment_component)
+		attachment_component.entity = self
 
 func _handle_consumable(consumable_definition: ConsumableComponentDefinition) -> void:
 	if consumable_definition is HealingConsumableComponentDefinition:

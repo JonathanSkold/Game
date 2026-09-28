@@ -45,24 +45,24 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	
 	var item: Entity = inventory_list.get_child(index).get_meta("item")
 	
-	if event.ctrl_pressed:
+	if event.shift_pressed:
 		get_viewport().set_input_as_handled()
 		use_requested.emit(item)
-	elif event.alt_pressed:
+	elif event.ctrl_pressed:
 		get_viewport().set_input_as_handled()
 		drop_requested.emit(item)
-	elif event.shift_pressed:
+	elif event.alt_pressed:
 		get_viewport().set_input_as_handled()
 		inspect_requested.emit(item)
 
-func _register_item(index: int, item: Entity, is_equipped: bool) -> void:
+func _register_item(index: int, item: Entity, is_attached: bool) -> void:
 	var item_button: Button = inventory_menu_item_scene.instantiate()
 	
 	var char: String = String.chr("a".unicode_at(0) + index)
 	item_button.text = "( %s ) %s" % [char, item.get_entity_name()]
 	
-	if is_equipped:
-		item_button.text += " (E)"
+	if is_attached:
+		item_button.text += " (A)"
 	
 	item_button.set_meta("item", item)
 	
@@ -78,10 +78,10 @@ func build(title_text: String, inventory: InventoryComponent) -> void:
 	if inventory.items.is_empty():
 		show()
 		return
-	var equipment: EquipmentComponent = inventory.entity.equipment_component
+	var attachment: AttachmentComponent = inventory.entity.attachment_component
 	for i in inventory.items.size():
 		var item: Entity = inventory.items[i]
-		var is_equipped: bool = equipment.is_item_equipped(item)
-		_register_item(i, item, is_equipped)
+		var is_attached: bool = attachment.is_item_attached(item)
+		_register_item(i, item, is_attached)
 	inventory_list.get_child(0).grab_focus()
 	show()

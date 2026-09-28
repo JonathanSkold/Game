@@ -16,7 +16,6 @@ func get_save_data() -> Dictionary:
 	return save_data
 
 func restore(save_data: Dictionary) -> void:
-	capacity = save_data["capacity"]
 	for item_data in save_data["items"]:
 		var item: Entity = Entity.create(null, Vector2i(-1, -1), "")
 		item.restore(item_data)
@@ -27,6 +26,9 @@ func restore(save_data: Dictionary) -> void:
 func _init(capacity: int) -> void:
 	items = []
 	self.capacity = capacity
+
+func is_full() -> bool:
+	return items.size() >= capacity
 
 func drop(item: Entity) -> void:
 	items.erase(item)

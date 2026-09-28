@@ -39,21 +39,21 @@ item_label_settings = ExtResource("2_40ls3")
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=74289126]
 layout_mode = 2
 
-[node name="EquippedBox" type="PanelContainer" parent="VBoxContainer" unique_id=156305694]
+[node name="AttachedBox" type="PanelContainer" parent="VBoxContainer" unique_id=156305694]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_yg2rl")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/EquippedBox" unique_id=510013905]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/AttachedBox" unique_id=510013905]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer/EquippedBox/VBoxContainer" unique_id=1727932327]
+[node name="TitleLabel" type="Label" parent="VBoxContainer/AttachedBox/VBoxContainer" unique_id=1727932327]
 layout_mode = 2
-text = "Equipped"
+text = "Attached"
 label_settings = ExtResource("2_40ls3")
 horizontal_alignment = 1
 
-[node name="EquippedList" type="VBoxContainer" parent="VBoxContainer/EquippedBox/VBoxContainer" unique_id=1491820082]
+[node name="AttachedList" type="VBoxContainer" parent="VBoxContainer/AttachedBox/VBoxContainer" unique_id=1491820082]
 unique_name_in_owner = true
 layout_mode = 2
 

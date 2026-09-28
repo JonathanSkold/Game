@@ -50,14 +50,14 @@ func restore(save_data: Dictionary) -> void:
 	base_defense = save_data["defense"]
 
 func get_defense_bonus() -> int:
-	if entity.equipment_component:
-		return entity.equipment_component.get_defense_bonus()
+	if entity.attachment_component:
+		return entity.attachment_component.get_defense_bonus()
 	return 0
 
 
 func get_power_bonus() -> int:
-	if entity.equipment_component:
-		return entity.equipment_component.get_power_bonus()
+	if entity.attachment_component:
+		return entity.attachment_component.get_power_bonus()
 	return 0
 
 func die(log_message := true) -> void:
