@@ -11,7 +11,7 @@ func activate(action: ItemAction) -> bool:
 
 func consume(consumer: Entity) -> void:
 	var inventory: InventoryComponent = consumer.inventory_component
-	inventory.items.erase(entity)
+	inventory.release_item(entity)
 	entity.queue_free()
 	
 	inventory.inventory_changed.emit()

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bhbln2br8nrqo"]
+
+[ext_resource type="Script" uid="uid://frg0hgin2xb1" path="res://src/save/check_save_reader.gd" id="1_7idmx"]
+
+[node name="Node" type="Node" unique_id=698348335]
+script = ExtResource("1_7idmx")

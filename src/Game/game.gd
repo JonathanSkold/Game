@@ -3,10 +3,7 @@ extends Node2D
 
 signal player_created(player)
 
-const player_definition: EntityDefinition = preload("res://assets/definitions/entities/actors/entity_definition_player.tres")
-
 @onready var player: Entity
-#@onready var input_handler: InputHandler = $InputHandler
 @onready var map: Map = $Map
 @onready var camera: Camera2D = $Camera2D
 
@@ -14,34 +11,68 @@ const player_definition: EntityDefinition = preload("res://assets/definitions/en
 
 
 func new_game() -> void:
+	assert(player == null, "Start a run only once per Game instance.")
+
 	player = Entity.create(null, Vector2i.ZERO, "player")
-	player_created.emit(player)
-	state_stack.player = player
-	state_stack.start()
-	remove_child(camera)
-	player.visual.add_child(camera)
 	map.generate(player)
-	map.update_fov(player.grid_position)
-	MessageLog.send_message.bind(
-		"Hello and welcome, adventurer, to yet another dungeon!",
-		GameColors.WELCOME_TEXT
-	).call_deferred()
-	camera.make_current.call_deferred()
+
+	_finish_startup(
+		"Hello and welcome, adventurer, to yet another dungeon!"
+	)
+
 
 func load_game() -> bool:
-	player = Entity.create(null, Vector2i.ZERO, "")
-	remove_child(camera)
-	player.visual.add_child(camera)
-	if not map.load_game(player):
+	assert(player == null, "Start a run only once per Game instance.")
+
+	var result := SaveSystem.load_save()
+
+	if not result.succeeded():
+		if result.status != SaveResult.Status.NOT_FOUND:
+			push_warning("Could not load saved game: %s" % result.message)
+
 		return false
-	player_created.emit(player)
+
+	if not result.message.is_empty():
+		push_warning(result.message)
+
+	# No nodes are created until reading and validation succeed.
+	player = Entity.create(null, Vector2i.ZERO, "")
+	map.restore_save_data(result.data, player)
+
+	_finish_startup("Welcome back, adventurer!")
+	return true
+
+
+func _finish_startup(welcome_message: String) -> void:
+	camera.get_parent().remove_child(camera)
+	player.visual.add_child(camera)
+	camera.position = Vector2.ZERO
+
 	map.update_fov(player.grid_position)
+
+	state_stack.player = player
+
+	# UI reads the completed player, including restored items and stats.
+	player_created.emit(player)
+
+	state_stack.start()
+
 	MessageLog.send_message.bind(
-		"Welcome back, adventurer!",
+		welcome_message,
 		GameColors.WELCOME_TEXT
 	).call_deferred()
+
 	camera.make_current.call_deferred()
-	return true
+
+func save_game() -> SaveResult:
+	if map.map_data == null:
+		return SaveResult.new(
+			SaveResult.Status.INVALID_DATA,
+			{},
+			"There is no active game to save."
+		)
+
+	return SaveSystem.write_save(map.map_data.get_save_data())
 
 func get_map_data() -> MapData:
 	return map.map_data
@@ -73,5 +104,8 @@ func execute_action(action: Action) -> void:
 
 func _handle_enemy_turns() -> void:
 	for entity in get_map_data().get_actors():
-		if entity.is_alive() and entity != player:
-			entity.ai_component.perform()
+		if entity == player or not entity.is_alive():
+			continue
+
+		if entity.ai_controller != null:
+			entity.ai_controller.perform()

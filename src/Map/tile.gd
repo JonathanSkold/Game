@@ -14,12 +14,37 @@ var key: String
 func get_save_data() -> Dictionary:
 	return {
 		"key": key,
-		"is_explored": is_explored
+		"is_explored": is_explored,
 	}
 
-func restore(save_data: Dictionary) -> void:
-	set_tile_type(save_data["key"])
-	is_explored = save_data["is_explored"]
+
+static func validate_save_data(data: Variant) -> String:
+	if not data is Dictionary:
+		return "Tile data must be a dictionary."
+
+	var saved_key: Variant = data.get("key")
+
+	if not saved_key is String:
+		return "Tile key must be a string."
+
+	if not tile_types.has(saved_key):
+		return "Unknown tile key: %s." % saved_key
+
+	if not data.get("is_explored") is bool:
+		return "Tile is_explored must be a boolean."
+
+	return ""
+
+
+# Requires data that has passed validation.
+func restore_save_data(data: Dictionary) -> void:
+	set_tile_type(data["key"])
+
+	# Current visibility is recalculated by FOV after loading.
+	is_in_view = false
+	is_explored = data["is_explored"]
+	visible = is_explored
+
 
 var is_explored: bool = false:
 	set(value):

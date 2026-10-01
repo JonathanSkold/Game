@@ -2,80 +2,29 @@
 
 [ext_resource type="Script" uid="uid://cx7deotj854yh" path="res://src/Game/game_root.gd" id="1_adbi8"]
 [ext_resource type="Script" uid="uid://b0ql1mhhmterx" path="res://src/Game/game.gd" id="1_sag4g"]
-[ext_resource type="Script" uid="uid://bqe1jfb0gy07j" path="res://src/Game/EventHandlers/input_handler.gd" id="2_le6wr"]
-[ext_resource type="Script" uid="uid://jw2xe5keq0t8" path="res://src/Game/EventHandlers/main_game_input_handler.gd" id="3_3s8ir"]
-[ext_resource type="Script" uid="uid://b6elgow0k5jhg" path="res://src/Game/EventHandlers/game_over_input_handler.gd" id="3_7m6cs"]
 [ext_resource type="Script" uid="uid://cqbdry6bvffnv" path="res://src/States/state_stack.gd" id="3_nbwy2"]
 [ext_resource type="Script" uid="uid://cb0us4w3vrqv7" path="res://src/Map/map.gd" id="3_sag4g"]
 [ext_resource type="Script" uid="uid://d4ewrq0mv5xbm" path="res://src/Map/dungeon_generator.gd" id="4_bob6j"]
 [ext_resource type="Script" uid="uid://d2dexmh4cpgqq" path="res://src/States/game_state.gd" id="4_ieffl"]
 [ext_resource type="Script" uid="uid://8g8lqtkkmfo1" path="res://src/Map/field_of_view.gd" id="5_3s8ir"]
 [ext_resource type="Script" uid="uid://difsei6hokms2" path="res://src/States/pause_state.gd" id="5_ieffl"]
-[ext_resource type="Script" uid="uid://f8vfrmmwnl1m" path="res://src/Game/EventHandlers/history_viewer_input_handler.gd" id="5_ysswf"]
 [ext_resource type="Script" uid="uid://ben5u2wa8e14t" path="res://src/States/history_state.gd" id="6_x7vs4"]
-[ext_resource type="Script" uid="uid://bkivcadk4o67w" path="res://src/Game/EventHandlers/base_input_handler.gd" id="6_x8pff"]
-[ext_resource type="Texture2D" uid="uid://yt60y7n1w20d" path="res://assets/tilesheets/monochrome-transparent_packed.png" id="8_lx5th"]
 [ext_resource type="Script" uid="uid://c1b34riaowm1x" path="res://src/States/swap_state.gd" id="8_seslh"]
 [ext_resource type="Script" uid="uid://ckoasawr5jteb" path="res://src/GUI/mouseover_checker.gd" id="9_4te78"]
 [ext_resource type="Script" uid="uid://dr6in330855ok" path="res://src/GUI/hp_display.gd" id="9_mkl7w"]
 [ext_resource type="Script" uid="uid://cbx048ox8su8g" path="res://src/States/targeting_state.gd" id="9_mtir4"]
-[ext_resource type="FontFile" uid="uid://wvj8g4i3vg7h" path="res://assets/Fonts/kenney_kenney-fonts/Fonts/Kenney Pixel.ttf" id="10_drysr"]
 [ext_resource type="Script" uid="uid://cn6amseusrsjj" path="res://src/GUI/message_log.gd" id="11_drysr"]
 [ext_resource type="PackedScene" uid="uid://d4mr16rkk4aw8" path="res://src/GUI/Reticle/reticle.tscn" id="11_muykf"]
 [ext_resource type="Script" uid="uid://dld54ttwubj84" path="res://src/GUI/dungeon_floor_label.gd" id="16_lr6s2"]
 [ext_resource type="Script" uid="uid://dpatr5dyja3s8" path="res://src/GUI/character_info_box.gd" id="16_nwlnk"]
-[ext_resource type="PackedScene" uid="uid://btgkiobrpls3h" path="res://src/GUI/InventoryPanel/inventory_panel.tscn" id="26_6phm1"]
+[ext_resource type="Script" uid="uid://cd8svjnp2gqxy" path="res://src/GUI/InventoryPanel/inventory_panel.gd" id="23_e2xsa"]
 [ext_resource type="PackedScene" uid="uid://6xtcbgfam75y" path="res://src/Debug/debug_overlay.tscn" id="26_seslh"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0qd4d"]
-atlas = ExtResource("8_lx5th")
-region = Rect2(768, 336, 16, 16)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fjlul"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-texture = SubResource("AtlasTexture_0qd4d")
-texture_margin_left = 5.0
-texture_margin_top = 5.0
-texture_margin_right = 5.0
-texture_margin_bottom = 5.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vndn"]
 bg_color = Color(0.49803922, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p66cd"]
 bg_color = Color(0, 0.49803922, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_hqv3i"]
-font = ExtResource("10_drysr")
-font_size = 36
-outline_size = 4
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_sotad"]
-font = ExtResource("10_drysr")
-font_size = 32
-
-[sub_resource type="LabelSettings" id="LabelSettings_p66cd"]
-font = ExtResource("10_drysr")
-font_size = 32
-
-[sub_resource type="LabelSettings" id="LabelSettings_7vndn"]
-font = ExtResource("10_drysr")
-font_size = 36
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7vndn"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-texture = SubResource("AtlasTexture_0qd4d")
-texture_margin_left = 5.0
-texture_margin_top = 5.0
-texture_margin_right = 5.0
-texture_margin_bottom = 5.0
 
 [node name="InterfaceRoot" type="Control" unique_id=13297286]
 layout_mode = 3
@@ -86,21 +35,22 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_adbi8")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=959690560]
+[node name="HBoxContainer" type="Control" parent="." unique_id=821386982]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 0
+anchors_preset = 0
+offset_right = 156.0
+offset_bottom = 128.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1853164593]
-layout_mode = 2
+[node name="VBoxContainer" type="Control" parent="HBoxContainer" unique_id=2104859806]
+anchors_preset = 0
+offset_right = 38.0
+offset_bottom = 128.0
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer/VBoxContainer" unique_id=643502188]
-layout_mode = 2
+layout_mode = 0
+offset_right = 38.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 5.0
 stretch = true
@@ -109,7 +59,7 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(1560, 896)
+size = Vector2i(38, 2)
 render_target_update_mode = 4
 
 [node name="Game" type="Node2D" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport" unique_id=715980526]
@@ -137,24 +87,6 @@ reticle = NodePath("../../Map/Reticle")
 [node name="SwapState" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack" unique_id=266971548]
 script = ExtResource("8_seslh")
 
-[node name="InputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=2074758298]
-script = ExtResource("2_le6wr")
-
-[node name="MainGameInputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=2116403 node_paths=PackedStringArray("reticle")]
-script = ExtResource("3_3s8ir")
-reticle = NodePath("../../Map/Reticle")
-
-[node name="GameOverInputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1124561278]
-script = ExtResource("3_7m6cs")
-
-[node name="HistoryViewerInputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1584827234]
-script = ExtResource("5_ysswf")
-messages_panel_path = NodePath("../../../../../InfoBar/MessagePanel")
-message_log_path = NodePath("../../../../../InfoBar/MessagePanel/MessageLog")
-
-[node name="DummyInputHandler" type="Node" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler" unique_id=1551990853]
-script = ExtResource("6_x8pff")
-
 [node name="Map" type="Node2D" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=371194236]
 script = ExtResource("3_sag4g")
 
@@ -176,17 +108,21 @@ script = ExtResource("9_4te78")
 [node name="Camera2D" type="Camera2D" parent="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" unique_id=198383647]
 zoom = Vector2(3, 3)
 
-[node name="InfoBar" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1121687442]
-layout_mode = 2
+[node name="InfoBar" type="Control" parent="HBoxContainer/VBoxContainer" unique_id=1454589484]
+anchors_preset = 0
+offset_top = 4.0
+offset_right = 38.0
+offset_bottom = 128.0
 size_flags_vertical = 3
-theme_override_constants/separation = 0
 
 [node name="StatsPanel" type="PanelContainer" parent="HBoxContainer/VBoxContainer/InfoBar" unique_id=1047874058]
-custom_minimum_size = Vector2(480, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_fjlul")
+layout_mode = 0
+offset_right = 22.0
+offset_bottom = 124.0
+size_flags_horizontal = 3
+theme_type_variation = &"CellPanel"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel" unique_id=334080634]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel" unique_id=1961387899]
 layout_mode = 2
 
 [node name="HpDisplay" type="MarginContainer" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=1771122807]
@@ -205,7 +141,6 @@ show_percentage = false
 [node name="HpLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" unique_id=1723608395]
 unique_name_in_owner = true
 layout_mode = 2
-label_settings = SubResource("LabelSettings_hqv3i")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -216,32 +151,30 @@ script = ExtResource("16_nwlnk")
 [node name="AttackLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/CharacterInfoBox" unique_id=1838445006]
 layout_mode = 2
 size_flags_horizontal = 3
-label_settings = SubResource("LabelSettings_sotad")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DefenseLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/CharacterInfoBox" unique_id=1435230392]
 layout_mode = 2
 size_flags_horizontal = 3
-label_settings = SubResource("LabelSettings_sotad")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DungeonFloorLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=1727790709]
 layout_mode = 2
-label_settings = SubResource("LabelSettings_p66cd")
 script = ExtResource("16_lr6s2")
 
 [node name="MouseOverLabel" type="Label" parent="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer" unique_id=830279341]
 layout_mode = 2
 size_flags_vertical = 10
-label_settings = SubResource("LabelSettings_7vndn")
 
 [node name="MessagePanel" type="PanelContainer" parent="HBoxContainer/VBoxContainer/InfoBar" unique_id=1706536737]
-layout_mode = 2
+layout_mode = 0
+offset_left = 22.0
+offset_right = 38.0
+offset_bottom = 124.0
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_7vndn")
+theme_type_variation = &"CellPanel"
 
 [node name="MessageLog" type="ScrollContainer" parent="HBoxContainer/VBoxContainer/InfoBar/MessagePanel" unique_id=552687127]
 layout_mode = 2
@@ -254,11 +187,71 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InventoryPanel" parent="HBoxContainer" unique_id=1028306181 instance=ExtResource("26_6phm1")]
-custom_minimum_size = Vector2(360, 0)
+[node name="InventoryPanel" type="Control" parent="HBoxContainer" unique_id=1028306181]
+anchors_preset = 0
+offset_left = 38.0
+offset_right = 156.0
+offset_bottom = 128.0
+size_flags_horizontal = 3
+script = ExtResource("23_e2xsa")
+
+[node name="VBoxContainer" type="Control" parent="HBoxContainer/InventoryPanel" unique_id=119905980]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AttachedBox" type="PanelContainer" parent="HBoxContainer/InventoryPanel/VBoxContainer" unique_id=156305694]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 75.0
+offset_bottom = 27.0
+size_flags_vertical = 3
+theme_type_variation = &"CellPanel"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/InventoryPanel/VBoxContainer/AttachedBox" unique_id=510013905]
 layout_mode = 2
 
-[node name="DebugOverlay" parent="." unique_id=2050669084 node_paths=PackedStringArray("state_stack") instance=ExtResource("26_seslh")]
+[node name="TitleLabel" type="Label" parent="HBoxContainer/InventoryPanel/VBoxContainer/AttachedBox/VBoxContainer" unique_id=1727932327]
+layout_mode = 2
+text = "Attached"
+horizontal_alignment = 1
+
+[node name="AttachedList" type="VBoxContainer" parent="HBoxContainer/InventoryPanel/VBoxContainer/AttachedBox/VBoxContainer" unique_id=1491820082]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InventoryBox" type="PanelContainer" parent="HBoxContainer/InventoryPanel/VBoxContainer" unique_id=430374162]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 31.0
+offset_right = 75.0
+offset_bottom = 58.0
+size_flags_vertical = 3
+theme_type_variation = &"CellPanel"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/InventoryPanel/VBoxContainer/InventoryBox" unique_id=1389636057]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="HBoxContainer/InventoryPanel/VBoxContainer/InventoryBox/VBoxContainer" unique_id=1671195956]
+layout_mode = 2
+text = "Inventory"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/InventoryPanel/VBoxContainer/InventoryBox/VBoxContainer" unique_id=1202615479]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="InventoryList" type="VBoxContainer" parent="HBoxContainer/InventoryPanel/VBoxContainer/InventoryBox/VBoxContainer/ScrollContainer" unique_id=1793245319]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DebugOverlay" parent="." unique_id=2050669084 node_paths=PackedStringArray("game_root", "state_stack") instance=ExtResource("26_seslh")]
+game_root = NodePath("..")
 state_stack = NodePath("../HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game/StateStack")
 
 [connection signal="player_created" from="HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Game" to="HBoxContainer/VBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" method="initialize"]

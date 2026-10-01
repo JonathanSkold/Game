@@ -1,7 +1,5 @@
 class_name InventoryPanel
-extends PanelContainer
-
-@export var item_label_settings: LabelSettings
+extends Control
 
 @onready var attached_list: VBoxContainer = %AttachedList
 @onready var inventory_list: VBoxContainer = %InventoryList
@@ -74,7 +72,6 @@ func _clear_list(list: VBoxContainer) -> void:
 func _add_row(list: VBoxContainer, text: String) -> void:
 	var row := Label.new()
 	row.text = text
-	row.label_settings = item_label_settings
 	row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE

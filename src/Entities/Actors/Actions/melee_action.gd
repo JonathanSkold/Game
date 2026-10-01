@@ -19,7 +19,7 @@ func perform() -> bool:
 	if damage > 0:
 		attack_description += " for %d hit points." % damage
 		MessageLog.send_message(attack_description, attack_color)
-		target.fighter_component.hp -= damage
+		target.fighter_component.take_damage(damage)
 	else:
 		attack_description += " but does no damage."
 		MessageLog.send_message(attack_description, attack_color)

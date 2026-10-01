@@ -12,15 +12,19 @@ var map_data: MapData
 @export var fov_radius: int = 8
 
 
-func load_game(player: Entity) -> bool:
+# Called once during startup, with validated data.
+func restore_save_data(data: Dictionary, player: Entity) -> void:
+	assert(map_data == null, "Restore requires an uninitialized map.")
+
 	map_data = MapData.new(0, 0, player)
+	map_data.restore_save_data(data)
+
 	map_data.entity_placed.connect(entities.add_child)
-	if not map_data.load_game():
-		return false
+
 	_place_tiles()
 	_place_entities()
+
 	dungeon_floor_changed.emit(map_data.current_floor)
-	return true
 
 func _ready() -> void:
 	SignalBus.player_descended.connect(next_floor)

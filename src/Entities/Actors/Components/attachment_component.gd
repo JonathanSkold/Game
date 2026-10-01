@@ -7,8 +7,10 @@ var slots := {}
 
 func get_save_data() -> Dictionary:
 	var entries: Array = []
+	var slot_keys: Array = slots.keys()
+	slot_keys.sort()
 
-	for slot in slots:
+	for slot in slot_keys:
 		var item: Entity = slots[slot]
 
 		entries.append({
@@ -18,21 +20,99 @@ func get_save_data() -> Dictionary:
 
 	return {"attached_items": entries}
 
-func restore(save_data: Dictionary) -> void:
-	var inventory: InventoryComponent = entity.inventory_component
 
-	if save_data.has("attached_items"):
-		for entry in save_data["attached_items"]:
-			var item := Entity.create(null, Vector2i(-1, -1), "")
-			item.restore(entry["item"])
-			slots[int(entry["slot"])] = item
+static func validate_save_data(data: Variant, depth: int = 0) -> String:
+	if not data is Dictionary:
+		return "Attachment data must be a dictionary."
 
-	inventory.inventory_changed.emit()
-	attachments_changed.emit()
+	if not data.get("attached_items") is Array:
+		return "attached_items must be an array."
+
+	var entries: Array = data["attached_items"]
+	var used_slots: Dictionary = {}
+	var valid_slots: Array = AttachableComponent.AttachmentType.values()
+
+	for index in range(entries.size()):
+		var entry: Variant = entries[index]
+		var context := "attached_items[%d]" % index
+
+		if not entry is Dictionary:
+			return "%s must be a dictionary." % context
+
+		var saved_slot: Variant = entry.get("slot")
+
+		if not SaveChecks.is_integer(saved_slot):
+			return "%s.slot must be a whole number." % context
+
+		var slot := int(saved_slot)
+
+		if not valid_slots.has(slot):
+			return "%s has an unknown attachment slot." % context
+
+		if used_slots.has(slot):
+			return "%s repeats an occupied attachment slot." % context
+
+		used_slots[slot] = true
+
+		var item_data: Variant = entry.get("item")
+		var error := Entity.validate_save_data(item_data, depth + 1)
+
+		if not error.is_empty():
+			return "%s.item: %s" % [context, error]
+
+		var definition: EntityDefinition = load(
+			Entity.entity_types[item_data["key"]]
+		)
+
+		if definition.type != Entity.EntityType.ITEM:
+			return "%s.item is not an item." % context
+
+		var attachment_definition := (
+			definition.item_definition as AttachableComponentDefinition
+		)
+
+		if attachment_definition == null:
+			return "%s.item cannot be attached." % context
+
+		if int(attachment_definition.attachment_type) != slot:
+			return "%s.item does not fit its saved slot." % context
+
+	return ""
+
+# Requires validated data and a fresh, empty attachment component.
+func restore_save_data(data: Dictionary) -> void:
+	assert(slots.is_empty(), "Restore requires empty attachment slots.")
+
+	for entry in data["attached_items"]:
+		var item := Entity.create(null, Vector2i.ZERO, "")
+		item.restore_save_data(entry["item"])
+		store_item(item)
 			
 
 func is_item_attached(item: Entity) -> bool:
 	return item in slots.values()
+
+# Caller validates availability and compatibility first.
+func store_item(item: Entity) -> void:
+	assert(item.get_parent() == null)
+	assert(item.attachable_component != null)
+
+	var slot := item.attachable_component.attachment_type
+	assert(not slots.has(slot))
+
+	slots[slot] = item
+	item.move_into_storage(self)
+
+
+func release_item(item: Entity) -> void:
+	assert(item.attachable_component != null)
+
+	var slot := item.attachable_component.attachment_type
+	assert(slots.get(slot) == item)
+	assert(item.get_parent() == self)
+
+	slots.erase(slot)
+	remove_child(item)
 
 func attach(item: Entity, add_message: bool = true) -> bool:
 	if not is_instance_valid(item):
@@ -56,9 +136,8 @@ func attach(item: Entity, add_message: bool = true) -> bool:
 			)
 		return false
 	
-	inventory.items.erase(item)
-	
-	slots[slot] = item
+	inventory.release_item(item)
+	store_item(item)
 
 	if add_message:
 		MessageLog.send_message(
@@ -99,13 +178,9 @@ func attach_from_ground(item: Entity) -> bool:
 		)
 		return false
 
-	# Validation is complete. Transfer ownership.
 	map_data.entities.erase(item)
-	slots[slot] = item
-
-	var parent: Node = item.get_parent()
-	if parent != null:
-		parent.remove_child(item)
+	item.get_parent().remove_child(item)
+	store_item(item)
 
 	MessageLog.send_message(
 		"You attach the %s from the ground." % item.get_entity_name(),
@@ -140,9 +215,8 @@ func detach(item: Entity, add_message: bool = true) -> bool:
 			)
 		return false
 	
-	slots.erase(slot)
-	
-	inventory.items.append(item)
+	release_item(item)
+	inventory.store_item(item)
 	
 	if add_message:
 		MessageLog.send_message(
@@ -204,8 +278,11 @@ func swap_with_inventory(
 		return false
 
 	# All validation is complete. Exchange both references.
-	inventory.items[backpack_index] = attached_item
-	slots[slot] = backpack_item
+	inventory.release_item(backpack_item)
+	release_item(attached_item)
+
+	inventory.store_item(attached_item, backpack_index)
+	store_item(backpack_item)
 
 	MessageLog.send_message(
 		"You detach the %s and attach the %s." % [

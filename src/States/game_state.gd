@@ -2,8 +2,6 @@ class_name GameState
 extends BaseState
 
 
-const inventory_menu_scene = preload("res://src/GUI/InventoryMenu/inventory_menu.tscn")
-
 @export var reticle: Reticle
 
 

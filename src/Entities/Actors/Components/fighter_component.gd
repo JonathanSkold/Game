@@ -7,13 +7,6 @@ var max_hp: int
 var hp: int:
 	set(value):
 		hp = clampi(value, 0, max_hp)
-		hp_changed.emit(hp, max_hp)
-		if hp <= 0:
-			var die_silently := false
-			if not is_inside_tree():
-				die_silently = true
-				await ready
-			die(not die_silently)
 var base_defense: int
 var base_power: int
 var defense: int: 
@@ -27,6 +20,38 @@ var death_texture: Texture
 var death_color: Color
 
 
+func get_save_data() -> Dictionary:
+	return {
+		"max_hp": max_hp,
+		"hp": hp,
+		"power": base_power,
+		"defense": base_defense,
+	}
+
+static func validate_save_data(data: Variant) -> String:
+	if not data is Dictionary:
+		return "Fighter data must be a dictionary."
+
+	for field in ["max_hp", "hp", "power", "defense"]:
+		if not SaveChecks.is_integer(data.get(field)):
+			return "Fighter %s must be a whole number." % field
+
+	if data["max_hp"] <= 0:
+		return "Fighter max_hp must be greater than zero."
+
+	if data["hp"] < 0 or data["hp"] > data["max_hp"]:
+		return "Fighter hp must be between zero and max_hp."
+
+	return ""
+
+# Requires validated data.
+func restore_save_data(data: Dictionary) -> void:
+	max_hp = int(data["max_hp"])
+	base_power = int(data["power"])
+	base_defense = int(data["defense"])
+	hp = int(data["hp"])
+
+
 func _init(definition: FighterComponentDefinition) -> void:
 	max_hp = definition.max_hp
 	hp = definition.max_hp
@@ -34,20 +59,6 @@ func _init(definition: FighterComponentDefinition) -> void:
 	base_power = definition.power
 	death_texture = definition.death_texture
 	death_color = definition.death_color
-
-func get_save_data() -> Dictionary:
-	return {
-		"max_hp": max_hp,
-		"hp": hp,
-		"power": base_power,
-		"defense": base_defense
-	}
-
-func restore(save_data: Dictionary) -> void:
-	max_hp = save_data["max_hp"]
-	hp = save_data["hp"]
-	base_power = save_data["power"]
-	base_defense = save_data["defense"]
 
 func get_defense_bonus() -> int:
 	if entity.attachment_component:
@@ -59,45 +70,51 @@ func get_power_bonus() -> int:
 	if entity.attachment_component:
 		return entity.attachment_component.get_power_bonus()
 	return 0
-
-func die(log_message := true) -> void:
-	var death_message: String
-	var death_message_color: Color
 	
-	if get_map_data().player == entity:
-		death_message = "You died!"
-		death_message_color = GameColors.PLAYER_DIE
+func take_damage(amount: int) -> void:
+	if amount <= 0 or hp <= 0:
+		return
+
+	hp -= amount
+
+	if hp == 0:
+		die()
+
+	hp_changed.emit(hp, max_hp)
+
+
+func heal(amount: int) -> int:
+	if amount <= 0 or hp <= 0 or hp == max_hp:
+		return 0
+
+	var previous_hp := hp
+	hp += mini(amount, max_hp - hp)
+
+	var recovered := hp - previous_hp
+	hp_changed.emit(hp, max_hp)
+
+	return recovered
+
+func die() -> void:
+	if entity.type == Entity.EntityType.CORPSE:
+		return
+
+	var map_data: MapData = get_map_data()
+	var was_player := map_data.player == entity
+	var previous_name := entity.get_entity_name()
+
+	hp = 0
+	entity.apply_dead_state()
+	map_data.unregister_blocking_entity(entity)
+
+	if was_player:
+		MessageLog.send_message(
+			"You died!",
+			GameColors.PLAYER_DIE
+		)
 		SignalBus.player_died.emit()
 	else:
-		death_message = "%s is dead!" % entity.get_entity_name()
-		death_message_color = GameColors.ENEMY_DIE
-	
-	if log_message:
-		MessageLog.send_message(death_message, death_message_color)
-	
-	MessageLog.send_message(death_message, death_message_color)
-	entity.sprite.texture = death_texture
-	entity.sprite.modulate = death_color
-	entity.ai_component.queue_free()
-	entity.ai_component = null
-	entity.entity_name = "Remains of %s" % entity.entity_name
-	entity.blocks_movement = false
-	get_map_data().unregister_blocking_entity(entity)
-	entity.type = Entity.EntityType.CORPSE
-	
-func heal(amount: int) -> int:
-	if hp == max_hp:
-		return 0
-	
-	var new_hp_value: int = hp + amount
-	
-	if new_hp_value > max_hp:
-		new_hp_value = max_hp
-		
-	var amount_recovered: int = new_hp_value - hp
-	hp = new_hp_value
-	return amount_recovered
-
-
-func take_damage(amount: int) -> void:
-	hp -= amount
+		MessageLog.send_message(
+			"%s is dead!" % previous_name,
+			GameColors.ENEMY_DIE
+		)

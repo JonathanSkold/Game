@@ -23,5 +23,4 @@ texture = SubResource("AtlasTexture_js7ka")
 fighter_definition = SubResource("Resource_eqybp")
 ai_type = 1
 inventory_capacity = 10
-has_attachments = true
 metadata/_custom_type_script = "uid://bq6erebf6qrgl"

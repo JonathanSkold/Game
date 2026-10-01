@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dme1petaj1i7j" path="res://src/Debug/debug_overlay.gd" id="1_em3kb"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6bvo"]
+bg_color = Color(0, 0, 0, 0)
+
 [node name="DebugOverlay" type="CanvasLayer" unique_id=2050669084]
 layer = 100
 script = ExtResource("1_em3kb")
@@ -12,6 +15,7 @@ offset_top = 16.0
 offset_right = 56.0
 offset_bottom = 56.0
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g6bvo")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1640249614]
 layout_mode = 2

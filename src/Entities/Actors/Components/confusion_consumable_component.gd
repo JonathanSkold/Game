@@ -25,8 +25,17 @@ func activate(action: ItemAction) -> bool:
 	if target == consumer:
 		MessageLog.send_message("You cannot confuse yourself!", GameColors.IMPOSSIBLE)
 		return false
-	
+		
+	if target.ai_controller == null:
+		MessageLog.send_message(
+			"That target cannot be confused.",
+			GameColors.IMPOSSIBLE
+		)
+		return false
+
+	if target.ai_controller.current() == null:
+		return false
 	MessageLog.send_message("The eyes of the %s look vacant, as it starts to stumble around!" % target.get_entity_name(), GameColors.STATUS_EFFECT_APPLIED)
-	target.add_child(ConfusedEnemyAIComponent.new(number_of_turns))
+	target.ai_controller.push(ConfusedEnemyAIComponent.new(number_of_turns))
 	consume(consumer)
 	return true
